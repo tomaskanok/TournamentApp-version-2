@@ -1,0 +1,69 @@
+﻿@model TournamentApp2.ViewModels.TournamentsViewModel
+
+<h2>Upcoming tournaments</h2>
+
+<table class="table table-striped">
+    <tr>
+        <th>
+            Name
+        </th>
+        <th>
+            Location
+        </th>
+        <th>
+            Website
+        </th>
+        <th>
+            Price
+        </th>
+        <th>
+            Start registration
+        </th>
+        <th>
+            End registration
+        </th>
+        <th>
+            Date of tournament
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model.TournamentsInfo)
+    {
+        <tr>
+            <td>
+                @item.Tournament.Name
+            </td>
+            <td>
+                @item.Tournament.Location
+            </td>
+            <td>
+                <a href="http://@item.Tournament.Web" target="_blank">@item.Tournament.Web</a>
+            </td>
+            <td>
+                @item.Tournament.Prize
+            </td>
+            <td>
+                @item.Tournament.StartRegistration
+            </td>
+            <td>
+                @item.Tournament.EndRegistration
+            </td>
+            <td>
+                @item.Tournament.StartDate
+            </td>
+            <td>
+                <a href="Tournaments/Detail/@item.Tournament.Id" class="btn btn-info btn-xs">Detail</a>
+                @if (@item.UserRegistred)
+                {
+                    <img src="~/images/Success-icon.png" data-toggle="tooltip" data-placement="right" title="you are registred" />
+                }
+
+                @if (@item.UserPaid)
+                {
+                    <img src="~/images/Warning-icon.png" data-toggle="tooltip" data-placement="right" title="pay fee please" />
+                }
+            </td>
+        </tr>
+    }
+</table>

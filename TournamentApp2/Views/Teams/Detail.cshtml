@@ -1,0 +1,73 @@
+﻿@model TournamentApp2.ViewModels.TeamDetailViewModel
+
+<h2>
+    @Html.DisplayFor(model => model.Team.Name)
+
+    @if (Model.TeamState.ToString() == "Yes")
+    {
+        <img src="~/images/Success-icon.png" />
+    }
+</h2>
+
+@if (Model.TeamState.ToString() == "No" && Model.UserIsLogged )
+{
+    <button type="submit" class="confirm btn btn-warning js-join-team">Join a team</button>
+}
+
+
+<p>Coach: @Html.ActionLink(Model.Coach.UserName, Model.Coach.ShortIdentify.ToString(), "Users/Detail")</p>
+
+<h3>Fighters</h3>
+@if (Model.Fighters.Count > 0)
+{
+    <ul>
+        @foreach (var fighter in Model.Fighters)
+        {
+            <li>@Html.ActionLink((string)fighter.UserName, fighter.ShortIdentify.ToString(), "Users/Detail") </li>
+        }
+    </ul>
+}
+else
+{
+    <p>No fighter in this team.</p>
+}
+
+@if (Model.Fighters.Count > 0)
+{
+    <h3>Waiting fighters for confirmation</h3>
+    <ul>
+        @foreach (var fighter in Model.WaitingFighters)
+        {
+            <li>@Html.ActionLink((string)fighter.UserName, fighter.ShortIdentify.ToString(), "Users/Detail") </li>
+        }
+    </ul>
+}
+
+<p>
+    @Html.ActionLink("Back to List", "All")
+</p>
+
+@section scripts
+{
+    <script>
+        $(document).ready(function () {
+
+            if("@Model.TeamState.ToString()" == "Waiting")
+            {
+                $('.alert-info').removeClass('isHidden').append("Waiting for confirmation by leader.");
+            }
+
+            $('.js-join-team').click(function (e) {
+
+                $.post("/api/jointeam", { teamId:@(Model.Team.Id)})
+                .done(function(){
+                    $(e.target).addClass('hideMe');
+                    $('.alert-success').removeClass('isHidden').append("Request sended to team leader. Wait for confirmation.");
+                })
+                .fail(function(){
+                    alert("Something went wrong.")
+                });
+            });
+        });
+    </script>
+}

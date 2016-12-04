@@ -1,0 +1,11 @@
+﻿@model IEnumerable<TournamentApp2.Models.Team>
+
+<h2>All teams</h2>
+
+<ul>
+    @foreach (var team in Model)
+    {
+        <li>@Html.ActionLink(team.Name, "Detail", new { Id = team.Id }) @if (ViewBag.TeamAttending == team.Id) { <img src="~/images/Success-icon.png" />}</li>
+    }
+</ul>
+
