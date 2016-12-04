@@ -21,7 +21,7 @@ namespace TournamentApp2.Controllers
         {
             var userId = User.Identity.GetUserId();
 
-            //var upcomingTournaments = _context.Tournaments.Where(t => t.StartDate > DateTime.Now).ToList();
+            // var upcomingTournaments = _context.Tournaments.Where(t => t.StartDate > DateTime.Now).ToList();
             var upcomingTournaments = _context.Tournaments.ToList();
 
             var tournaments = new TournamentsViewModel
